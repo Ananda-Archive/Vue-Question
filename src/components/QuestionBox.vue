@@ -36,17 +36,18 @@ export default {
             currentQuestionEncoded: ''
         }
     },
-    // Computed can't change variable values, so we use watch here for resetting index
+    // Computed can't change data variable values, so we use watch here for resetting index
     // computed: {
     //     listOfAnswers() {
     //         let list = [...this.currentQuestion.incorrect_answers,this.currentQuestion.correct_answer]
-    //         list.forEach(element => {
+    //         for(let i=0; i<list.length; i++){
     //             let txt = document.createElement('textarea')
-    //             txt.innerHTML = element
-    //             _.remove(list,element)
+    //             txt.innerHTML = list[0]
+    //             list.shift()
     //             list.push(txt.value)
-    //         });
-    //         return list
+    //         }
+    //         this.list = _.shuffle(list)
+    //         return this.list
     //     }
     // },
     methods: {
