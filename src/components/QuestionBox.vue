@@ -1,6 +1,6 @@
 <template>
     <div class="question-box-container">
-        <b-jumbotron>
+        <b-jumbotron v-if="done.length < 10">
             <template v-slot:lead>
                 {{ currentQuestionEncoded }}
             </template>
@@ -14,6 +14,13 @@
             <b-button variant="primary" href="#" @click="submitAnswer(selectedIndex)" :disabled="selectedIndex == null">Submit</b-button> &emsp;
             <b-button variant="success" href="#" @click="next" :disabled="done.length>=questionLength-1">Next</b-button>
         </b-jumbotron>
+        <b-jumbotron v-if="done.length == 10">
+            <img src="https://i.pinimg.com/originals/d0/18/ee/d018eecd1b40980273f4639197661586.png" width="400px" alt=""><br>
+            <h2>Score: {{ finalScores }}</h2>
+            <span class="correctAns">Correct Answer: {{ corrected }}</span>&emsp;||&emsp;
+            <!-- Correct Answer: {{ finalScores*10 }} -->
+            <span class="wrongAns">Wrong Answer: {{ questionLength - corrected }}</span>
+        </b-jumbotron>
     </div>
 </template>
 
@@ -26,13 +33,14 @@ export default {
         next: Function,
         index: Number,
         done: Array,
-        questionLength: Number
+        questionLength: Number,
+        finalScores: Number
     },
     data() {
         return {
             selectedIndex: null, // selected answer
             list: [], // list of answer
-            corrected: 0,
+            corrected: null,
             currentQuestionEncoded: ''
         }
     },
@@ -64,7 +72,7 @@ export default {
             }
             this.list = _.shuffle(list)
         },
-        encodingEntities(str) {
+        decodingEntities(str) {
             let txt = document.createElement('textarea')
             txt.innerHTML = str
             this.currentQuestionEncoded = txt.value
@@ -87,7 +95,7 @@ export default {
             immediate: true,
             handler() {
                 this.selectedIndex = null
-                this.encodingEntities(this.currentQuestion.question)
+                this.decodingEntities(this.currentQuestion.question)
                 this.currentQuestionEncoded
                 this.shuffleAns()
             }
@@ -114,6 +122,14 @@ export default {
 
 .wrong{
     background-color: red;
+}
+
+.correctAns {
+    color: green
+}
+
+.wrongAns {
+    color: red
 }
 
 

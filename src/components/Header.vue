@@ -28,7 +28,8 @@ export default {
             if(this.done == 0) {
                 return 0
             } else {
-                return _.round(this.latestScore/this.done,2)
+                this.$emit('finalScore',_.round(this.latestScore/this.done*10,2))
+                return _.round(this.latestScore/this.done*10,2)
             }
         }
     }

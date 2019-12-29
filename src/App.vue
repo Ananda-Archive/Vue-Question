@@ -4,6 +4,7 @@
       :latestScore="childData"
       :questionLength="questions.length"
       :done="done.length"
+      @finalScore="finalScore"
     />
     <b-container>
       <b-row>
@@ -15,6 +16,7 @@
               :next="next"
               :index="index"
               :done="done"
+              :finalScores="finalScores"
               @correct="updateScore"
           />          
         </b-col>
@@ -39,7 +41,8 @@ export default {
       questions: [],
       index: null,
       done: [],
-      childData: 0
+      childData: 0,
+      finalScores: 0
     }
   },
   methods: {
@@ -57,6 +60,9 @@ export default {
     },
     updateScore(score) {
       this.childData = score
+    },
+    finalScore(final) {
+      this.finalScores = final
     }
   },
   mounted: function() {
