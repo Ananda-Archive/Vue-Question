@@ -12,7 +12,7 @@
             </b-list-group>
             <br>
             <b-button variant="primary" href="#" @click="submitAnswer(selectedIndex)" :disabled="selectedIndex == null">Submit</b-button> &emsp;
-            <b-button variant="success" href="#" @click="next" :disabled="done.length==questionLength-1">Next</b-button>
+            <b-button variant="success" href="#" @click="next" :disabled="done.length>=questionLength-1">Next</b-button>
         </b-jumbotron>
     </div>
 </template>
@@ -37,18 +37,30 @@ export default {
         }
     },
     // Computed can't change variable values, so we use watch here for resetting index
-    computed: {
-        listOfAnswers() {
-            let list = [...this.currentQuestion.incorrect_answers,this.currentQuestion.correct_answer]
-            return list
-        }
-    },
+    // computed: {
+    //     listOfAnswers() {
+    //         let list = [...this.currentQuestion.incorrect_answers,this.currentQuestion.correct_answer]
+    //         list.forEach(element => {
+    //             let txt = document.createElement('textarea')
+    //             txt.innerHTML = element
+    //             _.remove(list,element)
+    //             list.push(txt.value)
+    //         });
+    //         return list
+    //     }
+    // },
     methods: {
         selectAnswer(idx) {
             this.selectedIndex = idx
         },
         shuffleAns() {
             let list = [...this.currentQuestion.incorrect_answers,this.currentQuestion.correct_answer]
+            for(let i=0; i<list.length; i++){
+                let txt = document.createElement('textarea')
+                txt.innerHTML = list[0]
+                list.shift()
+                list.push(txt.value)
+            }
             this.list = _.shuffle(list)
         },
         encodingEntities(str) {
